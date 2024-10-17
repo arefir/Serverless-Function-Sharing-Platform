@@ -11,6 +11,20 @@ const iamSchema = mongoose.Schema({
     required: true,
   },
 });
+const notificationsSchema = mongoose.Schema({
+  content: {
+    type: String,
+    required: true,
+  },
+  url: {
+    type: String,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 const userSchema = mongoose.Schema(
   {
     name: {
@@ -36,6 +50,7 @@ const userSchema = mongoose.Schema(
       default: false,
     },
     IAMs: [iamSchema],
+    notifications: [notificationsSchema],
   },
   {
     timestamps: true,

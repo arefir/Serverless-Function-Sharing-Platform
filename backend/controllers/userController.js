@@ -59,4 +59,43 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser, registerUser };
+const getProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      bio: user.bio,
+      email: user.email,
+      IAMs: user.IAMs,
+      notifications: user.notifications,
+      isAdmin: user.isAdmin,
+    });
+  }
+});
+
+// @desc    Update profile
+// @route   POST /api/users/profile
+// @access  Private (user can update their own profile)
+const updateProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.bio = req.body.bio || user.bio;
+
+    const updatedUser = await user.save();
+
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      bio: updatedUser.bio,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+
+export { authUser, registerUser, getProfile, updateProfile };
