@@ -101,4 +101,19 @@ const updateProfile = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Update Account (email or password)
+//+ @route   POST /api/users/profile/account
+// @access  Private
+const updateAccount = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+});
+
+// @desc    Add IAM
+//+ @route   POST /api/users/profile/iam
+// @access  Private
+
+// @desc    Delete IAM
+//+ @route   POST /api/users/profile/iam
+// @access  Private
+
 export { authUser, registerUser, getProfile, updateProfile };

@@ -6,7 +6,15 @@ const iamSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  key: {
+  accessKey: {
+    type: String,
+    required: true,
+  },
+  secretKey: {
+    type: String,
+    required: true,
+  },
+  arn: {
     type: String,
     required: true,
   },
