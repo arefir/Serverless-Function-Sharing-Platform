@@ -37,9 +37,8 @@ const functionSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    iamRole: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "IAMRole",
+    language: {
+      type: String,
       required: true,
     },
     environmentVariables: {

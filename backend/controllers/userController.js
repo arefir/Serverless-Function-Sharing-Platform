@@ -3,7 +3,7 @@ import generateToken from "../utils/generateToken.js";
 import User from "../models/userModel.js";
 
 // @desc    Auth user & get token
-// @route   POST /api/users/auth
+//+ @route   POST /api/users/auth
 // @access  Public
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -26,7 +26,7 @@ const authUser = asyncHandler(async (req, res) => {
 });
 
 // @desc    Register a new user
-// @route   POST /api/users
+//+ @route   POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
@@ -59,6 +59,9 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Get profile
+//* @route   Get /api/users/profile
+// @access  Private (user get their profile)
 const getProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
@@ -76,7 +79,7 @@ const getProfile = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update profile
-// @route   POST /api/users/profile
+//+ @route   POST /api/users/profile
 // @access  Private (user can update their own profile)
 const updateProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
