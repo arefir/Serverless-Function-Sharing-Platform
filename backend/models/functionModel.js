@@ -37,7 +37,7 @@ const functionSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    language: {
+    runtime: {
       type: String,
       required: true,
     },

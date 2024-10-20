@@ -60,7 +60,7 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 // @desc    Get profile
-//* @route   Get /api/users/profile
+//* @route   GET /api/users/profile
 // @access  Private (user get their profile)
 const getProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
