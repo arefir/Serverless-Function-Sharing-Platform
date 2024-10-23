@@ -105,15 +105,72 @@ const updateProfile = asyncHandler(async (req, res) => {
 //+ @route   POST /api/users/profile/account
 // @access  Private
 const updateAccount = asyncHandler(async (req, res) => {
+  const { email, password, confirmPassword } = req.body;
   const user = await User.findById(req.user._id);
+
+  if (user) {
+    if (email.length > 0) user.email = email;
+    if (password.length > 0 && confirmPassword.length > 0)
+      if (password === confirmPassword) user.password = password;
+
+    const updatedUser = await user.save();
+
+    res.json({
+      _id: updatedUser._id,
+      email: updatedUser.email,
+    });
+  }
 });
 
 // @desc    Add IAM
 //+ @route   POST /api/users/profile/iam
 // @access  Private
+const addIAM = asyncHandler(async (req, res) => {
+  const { name, accessKey, secretKey, arn } = req.body;
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    const iamExists = await user.IAMs.some((iam) => iam.arn === arn);
+    if (!iamExists) {
+      user.IAMs.push({
+        name,
+        accessKey,
+        secretKey,
+        arn,
+      });
+      await user.save();
+      res.json(user);
+    } else {
+      res.status(400);
+      throw new Error("IAM already exists");
+    }
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
 
 // @desc    Delete IAM
 //+ @route   POST /api/users/profile/iam
 // @access  Private
+const deleteIAM = asyncHandler(async (req, res) => {
+  const { name } = req.body;
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    const iamIndex = user.IAMs.findIndex((iam) => iam.name === name);
+    if (iamIndex !== -1) {
+      user.IAMs.splice(iamIndex, 1);
+      await user.save();
+      res.json(user);
+    } else {
+      res.status(400);
+      throw new Error("IAM not found");
+    }
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
 
 export { authUser, registerUser, getProfile, updateProfile };

@@ -1,6 +1,7 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import Function from "../models/functionModel.js";
 import AWS from "aws-sdk";
+import { decrypt } from "../utils/encrypt.js";
 
 // @desc    Upload function
 //+ @route   POST /api/functions
@@ -103,16 +104,18 @@ const deleteFunction = asyncHandler(async (req, res) => {
 //+ @route   POST /api/functions/deploy/:id
 // @access  Private
 const deployFunction = asyncHandler(async (req, res) => {
-  const { functionName, code, runtime, roleArn, credentials, region } =
-    req.body;
+  const { functionName, code, runtime, iam, region } = req.body;
 
-  configureAWS(credentials.accessKey, credentials.secretKey, region);
+  const accessKey = decrypt(iam.accessKey);
+  const secretKey = decrypt(iam.secretKey);
+
+  configureAWS(accessKey, secretKey, region);
   const lambda = new AWS.Lambda();
 
   const params = {
     FunctionName: functionName,
     Runtime: runtime,
-    Role: roleArn,
+    Role: iam.arn,
     Handler: "index.handler",
     Code: {
       ZipFile: Buffer.from(code, "utf-8"), // The code in zip or plain text form

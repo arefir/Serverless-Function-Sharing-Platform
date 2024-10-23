@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import { encrypt } from "../utils/encrypt.js";
 
 const iamSchema = mongoose.Schema({
   name: {
@@ -72,12 +73,22 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 
 // Encrypt password using bcrypt
 userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    next();
+  if (this.isModified("password")) {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
   }
 
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
+  if (this.isModified("IAMs")) {
+    let newIAM = this.IAMs[this.IAMs.length - 1];
+
+    newIAM.accessKey = encrypt(newIAM.accessKey);
+    newIAM.secretKey = encrypt(newIAM.secretKey);
+
+    this.IAMs.pop();
+    this.IAMs.push(newIAM);
+  }
+
+  next();
 });
 
 const User = mongoose.model("User", userSchema);
