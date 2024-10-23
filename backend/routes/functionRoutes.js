@@ -6,7 +6,7 @@ import {
   updateFunction,
   deleteFunction,
   deployFunction,
-} from "./functionController.js";
+} from "../controllers/functionController.js";
 import { protect, admin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();

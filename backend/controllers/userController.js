@@ -102,16 +102,17 @@ const updateProfile = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update Account (email or password)
-//+ @route   POST /api/users/profile/account
+//+ @route   POST /api/users/account
 // @access  Private
 const updateAccount = asyncHandler(async (req, res) => {
-  const { email, password, confirmPassword } = req.body;
+  const { password, confirmPassword } = req.body;
   const user = await User.findById(req.user._id);
 
   if (user) {
-    if (email.length > 0) user.email = email;
-    if (password.length > 0 && confirmPassword.length > 0)
-      if (password === confirmPassword) user.password = password;
+    user.email = req.body.email || user.email;
+    if (req.body.password && req.body.confirmPassword)
+      if (password.length > 0 && confirmPassword.length > 0)
+        if (password === confirmPassword) user.password = password;
 
     const updatedUser = await user.save();
 
@@ -123,11 +124,11 @@ const updateAccount = asyncHandler(async (req, res) => {
 });
 
 // @desc    Add IAM
-//+ @route   POST /api/users/profile/iam
+//+ @route   POST /api/users/iam
 // @access  Private
 const addIAM = asyncHandler(async (req, res) => {
   const { name, accessKey, secretKey, arn } = req.body;
-  const user = await User.findById(req.user._id);
+  const user = await User.findById(req.user._id).select("-password");
 
   if (user) {
     const iamExists = await user.IAMs.some((iam) => iam.arn === arn);
@@ -151,11 +152,11 @@ const addIAM = asyncHandler(async (req, res) => {
 });
 
 // @desc    Delete IAM
-//+ @route   POST /api/users/profile/iam
+//! @route   DELETE /api/users/iam
 // @access  Private
 const deleteIAM = asyncHandler(async (req, res) => {
   const { name } = req.body;
-  const user = await User.findById(req.user._id);
+  const user = await User.findById(req.user._id).select("-password");
 
   if (user) {
     const iamIndex = user.IAMs.findIndex((iam) => iam.name === name);
@@ -173,4 +174,12 @@ const deleteIAM = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser, registerUser, getProfile, updateProfile };
+export {
+  authUser,
+  registerUser,
+  getProfile,
+  updateProfile,
+  updateAccount,
+  addIAM,
+  deleteIAM,
+};

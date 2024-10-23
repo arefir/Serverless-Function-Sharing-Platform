@@ -78,7 +78,7 @@ userSchema.pre("save", async function (next) {
     this.password = await bcrypt.hash(this.password, salt);
   }
 
-  if (this.isModified("IAMs")) {
+  if (this.isModified("IAMs") && this.IAMs.length > 0) {
     let newIAM = this.IAMs[this.IAMs.length - 1];
 
     newIAM.accessKey = encrypt(newIAM.accessKey);

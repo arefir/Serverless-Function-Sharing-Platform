@@ -7,13 +7,13 @@ import { decrypt } from "../utils/encrypt.js";
 //+ @route   POST /api/functions
 // @access  Private
 const uploadFunction = asyncHandler(async (req, res) => {
-  const { name, description, code, language, environmentVariables } = req.body;
+  const { name, description, code, runtime, environmentVariables } = req.body;
   const author = req.user.id;
 
   const functionExists = await Function.findOne({ name, author });
 
   if (!functionExists) {
-    const fn = {
+    const data = {
       name,
       description,
       code,
@@ -22,10 +22,14 @@ const uploadFunction = asyncHandler(async (req, res) => {
       author,
     };
 
+    const fn = new Function(data);
+
     fn.save();
+
+    res.json(fn);
   } else {
     res.status(400);
-    throw new Error("User already exists");
+    throw new Error("Function already exists");
   }
 });
 
