@@ -1,7 +1,10 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import Function from "../models/functionModel.js";
 import AWS from "aws-sdk";
-import { decrypt } from "../utils/encrypt.js";
+// import { decrypt } from "../utils/encrypt.js";
+import Cryptr from "cryptr";
+import JSZip from "jszip";
+import fs, { fdatasync } from "fs";
 
 // @desc    Upload function
 //+ @route   POST /api/functions
@@ -108,36 +111,55 @@ const deleteFunction = asyncHandler(async (req, res) => {
 //+ @route   POST /api/functions/deploy/:id
 // @access  Private
 const deployFunction = asyncHandler(async (req, res) => {
-  const { functionName, code, runtime, iam, region } = req.body;
+  const { functionName, iam, region } = req.body;
 
-  const accessKey = decrypt(iam.accessKey);
-  const secretKey = decrypt(iam.secretKey);
+  const fn = await Function.findById(req.params.id);
 
-  configureAWS(accessKey, secretKey, region);
-  const lambda = new AWS.Lambda();
+  if (fn) {
+    const cryptr = new Cryptr(process.env.ENCRYPTION_SECRET);
+    const accessKey = cryptr.decrypt(iam.accessKey);
+    const secretKey = cryptr.decrypt(iam.secretKey);
 
-  const params = {
-    FunctionName: functionName,
-    Runtime: runtime,
-    Role: iam.arn,
-    Handler: "index.handler",
-    Code: {
-      ZipFile: Buffer.from(code, "utf-8"), // The code in zip or plain text form
-    },
-    // Environment: { // Environment
-    //   Variables: { // EnvironmentVariables
-    //     "<keys>": "STRING_VALUE",
-    //   },
-    // },
-  };
+    console.log(`accessKey: ${accessKey}, secretKey: ${secretKey}`);
 
-  try {
-    const response = await lambda.createFunction(params).promise();
-    res
-      .status(200)
-      .json({ message: "Function deployed successfully", data: response });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    configureAWS(accessKey, secretKey, region);
+    const lambda = new AWS.Lambda({
+      region: region,
+    });
+
+    const code = Buffer.from(fn.code, "utf8");
+    let zip = new JSZip();
+    zip.file("index.js", code);
+    await zip
+      .generateAsync({ type: "nodebuffer", compression: "DEFLATE" })
+      .then(async function callback(buffer) {
+        fs.writeFileSync("code.zip", buffer);
+      });
+
+    const params = {
+      FunctionName: functionName,
+      Runtime: fn.runtime,
+      Role: iam.arn,
+      Handler: "index.handler",
+      Code: {
+        ZipFile: fs.readFileSync("code.zip"), // The code in zip or plain text form
+      },
+      // Environment: { // Environment
+      //   Variables: { // EnvironmentVariables
+      //     "<keys>": "STRING_VALUE",
+      //   },
+      // },
+    };
+
+    try {
+      const response = await lambda.createFunction(params).promise();
+      fs.unlinkSync("code.zip"); // Delete the zip file
+      res
+        .status(200)
+        .json({ message: "Function deployed successfully", data: response });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
   }
 });
 

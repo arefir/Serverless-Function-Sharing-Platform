@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
-import { encrypt } from "../utils/encrypt.js";
+// import { encrypt } from "../utils/encrypt.js";
+import Cryptr from "cryptr";
 
 const iamSchema = mongoose.Schema({
   name: {
@@ -79,10 +80,11 @@ userSchema.pre("save", async function (next) {
   }
 
   if (this.isModified("IAMs") && this.IAMs.length > 0) {
+    const cryptr = new Cryptr(process.env.ENCRYPTION_SECRET);
     let newIAM = this.IAMs[this.IAMs.length - 1];
 
-    newIAM.accessKey = encrypt(newIAM.accessKey);
-    newIAM.secretKey = encrypt(newIAM.secretKey);
+    newIAM.accessKey = cryptr.encrypt(newIAM.accessKey);
+    newIAM.secretKey = cryptr.encrypt(newIAM.secretKey);
 
     this.IAMs.pop();
     this.IAMs.push(newIAM);
