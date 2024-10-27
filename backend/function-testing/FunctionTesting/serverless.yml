@@ -1,0 +1,19 @@
+
+org: arefir
+
+service: FunctionTesting
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+
+plugins:
+  - serverless-offline
+
+functions:
+  hello:
+    handler: handler.handler
+    events:
+      - httpApi:
+          path: /
+          method: get

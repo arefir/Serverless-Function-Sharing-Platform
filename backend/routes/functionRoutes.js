@@ -6,6 +6,7 @@ import {
   updateFunction,
   deleteFunction,
   deployFunction,
+  testFunction,
 } from "../controllers/functionController.js";
 import { protect, admin } from "../middleware/authMiddleware.js";
 
@@ -18,5 +19,6 @@ router
   .post(protect, updateFunction)
   .delete(protect, deleteFunction); //get single function, update function, delete function
 router.post("/deploy/:id", protect, deployFunction);
+router.post("/test/:id", protect, testFunction);
 
 export default router;

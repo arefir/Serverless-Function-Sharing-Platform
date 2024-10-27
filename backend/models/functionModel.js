@@ -37,6 +37,10 @@ const functionSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    method: {
+      type: String,
+      required: true,
+    },
     runtime: {
       type: String,
       required: true,
