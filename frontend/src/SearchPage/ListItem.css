@@ -1,0 +1,47 @@
+.listItem {
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 17px;
+    margin-bottom: 10px;
+    border: 1px solid #c8c8c8;
+    font: 400 13px/24px Roboto, sans-serif;
+    color: #5e5e5e;
+  }
+
+  /* .title{
+    /* font-size: 13px; */
+    /* flex-grow: 1;
+    margin-right: 10px; */
+    /* margin-top: 92px; */
+  /* } */ 
+  
+  .stats {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+  }
+  
+  .itemIcon {
+    width: 93px;
+    height: 19px;
+    object-fit: contain;
+  }
+  
+  .statItem {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+  
+  .statNumber {
+    font-weight: 400;
+  }
+  
+  .statIcon {
+    width: 15px;
+    height: 15px;
+    object-fit: contain;
+  }
+  

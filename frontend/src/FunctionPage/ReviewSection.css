@@ -1,0 +1,16 @@
+.reviews-title {
+    color: #404040;
+    font-size: 48px;
+    font-weight: 900;
+    text-align: left;
+    align-self: start;
+    margin-top: 45px;
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 991px) {
+    .reviews-title {
+      margin-top: 40px;
+      font-size: 40px;
+    }
+  }

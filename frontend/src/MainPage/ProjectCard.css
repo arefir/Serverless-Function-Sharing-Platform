@@ -1,0 +1,67 @@
+
+    .project-card {
+      background-color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 20px 0 11px;
+      cursor: pointer;
+    }
+    .card-content {
+      display: flex;
+      flex-direction: column;
+      /* min-height: 191px; */
+      padding: 0 30px 0 34px;
+      flex-grow: 1;
+    }
+    .status-badge {
+      align-self: flex-start;
+      border-radius: 999px;
+      background-color: rgba(241, 195, 33, 0.3);
+      color: #99691d;
+      text-align: center;
+      text-transform: uppercase;
+      padding: 9px 18px;
+      font: 800 15px/1 Manrope,Roboto, Helvetica, sans-serif;
+    }
+    .project-title {
+      color: #414141;
+      width: 300px;
+      letter-spacing: -0.32px;
+      font: 700 32px/32px Manrope, -apple-system, Arial, Helvetica, sans-serif;
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+    .project-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      flex-grow: 1;
+    }
+    .project-icon {
+      width: 19px;
+      height: 21px;
+      margin-bottom: 5px;
+    }
+    .content-link{
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #414141;
+      font: 600 12px/1.2 Manrope, -apple-system, Roboto, Helvetica, sans-serif;
+    }
+    .project-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #414141;
+      margin-top: auto;
+      padding-top: 10px;
+      margin-bottom: 10px;
+      font: 600 12px/1.2 Manrope, -apple-system, Roboto, Helvetica, sans-serif;
+    }
+    @media (max-width: 991px) {
+      .separator {
+      margin: 0 6px;
+    }
+}

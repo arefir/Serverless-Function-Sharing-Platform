@@ -1,0 +1,40 @@
+
+    .header {
+      background-color: #fff;
+      border-bottom: 2px solid #eef0f3;
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 48px;
+      min-width: 900px;
+      align-items: center;
+      height: 30px;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding-right: 100px;
+    }
+
+    .header-content {
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 991px) {
+      .header {
+        max-width: 100%;
+        padding: 0 20px;
+      }
+    }

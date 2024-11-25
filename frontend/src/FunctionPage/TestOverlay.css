@@ -1,0 +1,109 @@
+/* TestOverlay.css */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* padding-top: 20px; */
+    z-index: 1000;
+  }
+  
+  .darken {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1001;
+    max-width: 950px;
+    width: 100%;
+    margin-left: 190px;
+    display: flex;
+    flex-direction: column;
+    /* margin: 20px; */
+    /* max-height: 70vh;
+    overflow-y: auto; */
+  }
+  
+  .code-container {
+    background-color: #f0f0f0;
+    padding: 15px 30px;
+    border-radius: 10px;
+    margin: 10px;
+    margin-bottom: 0;
+    font-size: 12px;
+    font-family: monospace;
+    border: 1px solid #e6e6e6;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+    /* overflow: hidden; */
+  }
+  
+  .event-object {
+    margin-bottom: 20px;
+  }
+  .event-object h2 {
+    margin-bottom: 0;
+    padding-left: 10px; /* Adjust padding to align with the code container */
+    color: #404040;
+    font-weight: 900;
+    text-align: left;
+    align-self: start;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 5px; /* Add spacing between button and content */
+}
+  
+  .run-button {
+    background-color: #008709;
+    color: white;
+    padding: 0px 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 35px;
+    justify-content: center;
+    white-space: nowrap;
+    width: 100px;
+    font: 700 13px Nunito Sans, Arial, Helvetica, sans-serif;
+  }
+  
+  .run-button:hover {
+    background-color: #006600;
+  }
+  
+  .code-editor {
+    width: 100%;
+    min-height: 150px;
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 10px;
+    font-family: monospace;
+    font-size: 12px;
+    border: none;
+    /* border: 1px solid #e6e6e6; */
+    white-space: pre;
+    /* box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25); */
+    /* overflow: hidden; */
+    resize: none;
+  }
+  
+  .code-editor:focus {
+    outline: none;
+    box-shadow: none;
+  }

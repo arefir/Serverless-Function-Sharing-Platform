@@ -1,0 +1,25 @@
+.itemContent {
+    width: 83%;
+    display: flex;
+    flex-direction: column;
+    padding-left: 60px;
+    padding-top: 17px;
+    overflow: hidden;
+    margin-left: 16%;
+    padding-bottom: 60px;
+    padding-right: 10px;
+  }
+  
+  .listContainer {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  @media (max-width: 991px) {
+    .itemContent {
+      width: 100%;
+      padding: 0px 20px;
+    }
+  }
+  

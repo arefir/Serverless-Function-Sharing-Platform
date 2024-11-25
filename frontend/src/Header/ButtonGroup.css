@@ -1,0 +1,33 @@
+
+    .button-group {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+    .language-button, .icon-button {
+      border-radius: 6px;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      font: 550 14px/1 Inter, sans-serif;
+      color: #242424;
+      flex-shrink: 0;
+    }
+    .language-button {
+      gap: 2px;
+      height: 30px;
+      width: 55px;
+    }
+    .icon-button {
+      width: 35px;
+      height: 30px;
+    }
+    .dropdown-icon, .notification-icon, .profile-icon {
+      width: 17px;
+      height: 17px;
+    }

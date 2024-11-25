@@ -1,0 +1,38 @@
+
+    .content-area {
+      display: flex;
+      flex-direction: column;
+      padding-left: 60px;
+      padding-right: 10px;
+      width: 83%;
+      padding-top: 17px;
+      margin-left: 16%;
+      padding-bottom: 60px;
+    }
+    .section-title {
+      color: #404040;
+      text-align: left;
+      font: 900 43px/1 Nunito Sans, -apple-system, Arial, Helvetica, sans-serif;
+      margin-top: 21px;
+      margin-bottom: 0;
+    }
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 60px 50px;
+      margin-top: 31px;
+
+    }
+    @media (max-width: 991px) {
+      .content-area {
+        width: 100%;
+        margin-top: 40px;
+        padding-right: 10px;
+      }
+      .section-title {
+        font-size: 40px;
+      }
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+    }

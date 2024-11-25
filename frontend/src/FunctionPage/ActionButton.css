@@ -1,0 +1,45 @@
+.action-buttons {
+    display: flex;
+    gap: 12px;
+    font-size: 13px;
+    color: #fff;
+    font-weight: 800;
+  }
+  
+  .action-button {
+    align-items: center;
+    border-radius: 6px;
+    background-color: #404040;
+    color: #fff;
+    height: 35px;
+    gap: 13px;
+    border: none;
+    white-space: nowrap;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0px 14px;
+    width: 125px;
+    font: 700 13px Nunito Sans, Arial, Helvetica, sans-serif;
+  }
+
+  .action-button:hover {
+    background-color: black;
+  }
+  
+  .deploy-button {
+    border-radius: 6px;
+    background-color: #008709;
+    color: #fff;
+    height: 35px;
+    border: none;
+    gap: 13px;
+    justify-content: center;
+    cursor: pointer;
+    white-space: nowrap;
+    padding: 0px 14px;
+    width: 125px;
+    font: 700 13px Nunito Sans, Arial, Helvetica, sans-serif;
+  }
+  .deploy-button:hover {
+    background-color: #006600;
+  }

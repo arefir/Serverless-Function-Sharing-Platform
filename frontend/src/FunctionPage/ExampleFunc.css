@@ -1,0 +1,51 @@
+.example-function {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.top-bar {
+  background-color: #fff;
+  border-bottom: 2px solid #eef0f3;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  justify-content: center;
+}
+
+@media (max-width: 991px) {
+  .top-bar {
+    max-width: 100%;
+  }
+}
+
+
+.main-content {
+  z-index: 10;
+  width: 100%;
+  max-width: 1365px;
+  /* padding-top: 60px; */
+}
+
+@media (max-width: 991px) {
+  .main-content {
+    max-width: 100%;
+    /* padding-top: 40px; */
+  }
+}
+
+.content-wrapper {
+  gap: 20px;
+  display: flex;
+  width: 100%;
+}
+
+@media (max-width: 991px) {
+  .content-wrapper {
+    flex-direction: column;
+    /* align-items: stretch; */
+    gap: 0px;
+  }
+}

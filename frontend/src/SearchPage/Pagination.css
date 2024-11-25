@@ -1,0 +1,43 @@
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 18px;
+    font: 800 13px Nunito Sans, Roboto, Helvetica, sans-serif;
+  }
+  
+  .paginationButton {
+    border-radius: 6px;
+    background-color: #404040;
+    color: #fff;
+    padding: 0px 14px;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    justify-content: center;
+    height: 35px;
+    width: 124px;
+    font: 700 13px Nunito Sans, Arial, Helvetica, sans-serif;
+  }
+  .paginationButton:hover {
+    background-color: black;
+  }
+  
+  .pageNumbers {
+    color: #404040;
+    font-size: 16px;
+    font-weight: 900;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .inactivePages {
+    color: #939393;
+    margin-right: 10px;
+  }
+
+  .activePage{
+    color: #404040;
+    font-weight: 900;
+    margin-right: 10px;
+  }

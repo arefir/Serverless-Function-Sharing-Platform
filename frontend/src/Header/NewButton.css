@@ -1,0 +1,24 @@
+
+    .new-button {
+      border-radius: 6px;
+      background-color: #404040;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 13px;
+      color: #fff;
+      padding: 0px 14px;
+      font: 800 13px Nunito Sans, -apple-system, Roboto, Helvetica, sans-serif;
+      border: none;
+      cursor: pointer;
+      height: 30px;
+      margin-top: 1px;
+      margin-left: 25px;
+    }
+    .new-button:hover {
+      background-color: black;
+    }
+    .new-icon {
+      width: 11px;
+      height: 11px;
+    }

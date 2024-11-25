@@ -8,7 +8,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { exec } from "child_process";
-import handler from "../utils/lambdaHandler.js";
+// import handler from "../utils/lambdaHandler.js";
 import fetch from "node-fetch";
 
 // @desc    Upload function
@@ -17,7 +17,6 @@ import fetch from "node-fetch";
 const uploadFunction = asyncHandler(async (req, res) => {
   const { name, description, code, runtime, environmentVariables } = req.body;
   const author = req.user.id;
-
   const functionExists = await Function.findOne({ name, author });
 
   if (!functionExists) {
@@ -167,6 +166,7 @@ const deployFunction = asyncHandler(async (req, res) => {
     }
   }
 });
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -180,78 +180,170 @@ const slsConfigPath = path.join(
 );
 const slsPath = path.join(__dirname, "../function-testing/FunctionTesting");
 
-// @desc    Test function
+// @desc    NEW Test function
 //+ @route   POST /api/functions/test/:id
 // @access  Private
 const testFunction = asyncHandler(async (req, res) => {
-  const { input } = req.body;
+  const { functionName, input } = req.body;
 
   const fn = await Function.findById(req.params.id);
 
-  try {
-    fs.writeFileSync(handlerPath, fn.code);
-    const config = `
-org: arefir
+  if (fn) {
+    const accessKey = process.env.AWS_KEY;
+    const secretKey = process.env.AWS_SECRET;
 
-service: FunctionTesting
+    // console.log(`accessKey: ${accessKey}, secretKey: ${secretKey}`);
 
-provider:
-  name: aws
-  runtime: ${fn.runtime}
-
-plugins:
-  - serverless-offline
-
-functions:
-  hello:
-    handler: handler.handler
-    events:
-      - httpApi:
-          path: /
-          method: ${fn.method}`;
-
-    fs.writeFileSync(slsConfigPath, config);
-    let slsProcess;
-
-    //wait for sls offline to complete
-    await new Promise((resolve, reject) => {
-      slsProcess = exec(
-        "sls offline --httpPort=3030 --lambdaPort=3032",
-        { cwd: "backend/function-testing/FunctionTesting" },
-        (error, stdout, stderr) => {
-          if (error) {
-            console.error(
-              `Error starting serverless offline: ${error.message}`
-            );
-            reject(error);
-            return res
-              .status(500)
-              .json({ error: "Failed to start serverless offline" });
-          }
-          console.log("Serverless offline started");
-          resolve("Sls started");
-        }
-      );
+    configureAWS(accessKey, secretKey, "ap-northeast-2");
+    const lambda = new AWS.Lambda({
+      region: "ap-northeast-2",
     });
 
-    const result = await handler(input);
-    console.log(result);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const code = Buffer.from(fn.code, "utf8");
+    let zip = new JSZip();
+    zip.file("index.js", code);
+    await zip
+      .generateAsync({ type: "nodebuffer", compression: "DEFLATE" })
+      .then(async function callback(buffer) {
+        fs.writeFileSync("code.zip", buffer);
+      });
 
-    slsProcess.kill("SIGINT");
+    const params = {
+      FunctionName: functionName,
+      Runtime: fn.runtime,
+      Role: process.env.ARN,
+      Handler: "index.handler",
+      Code: {
+        ZipFile: fs.readFileSync("code.zip"), // The code in zip or plain text form
+      },
+      // Environment: { // Environment
+      //   Variables: { // EnvironmentVariables
+      //     "<keys>": "STRING_VALUE",
+      //   },
+      // },
+    };
 
-    res
-      .status(200)
-      .json({ message: "Function tested successfully", output: result });
-  } catch (err) {
-    res.status(500).json({ error: err });
-  } finally {
-    // Clean up files to avoid conflicts
-    if (fs.existsSync(handlerPath)) {
-      fs.unlinkSync(handlerPath);
+    try {
+      const deployed = await lambda.createFunction(params).promise();
+      fs.unlinkSync("code.zip"); // Delete the zip file
+
+      if (deployed) {
+        await new Promise((resolve) => setTimeout(resolve, 10000));
+        const invokeParams = {
+          // ClientContext: Buffer.from(clientContextData).toString("base64"),
+          // // FunctionName is composed of: service name - stage - function name, e.g.
+          FunctionName: functionName,
+          InvocationType: "RequestResponse",
+          Payload: JSON.stringify(input),
+        };
+
+        const response = await lambda.invoke(invokeParams).promise();
+        console.log(response);
+
+        if (response) {
+          await lambda.deleteFunction({ FunctionName: functionName }).promise();
+          res.status(200).json({
+            message: "Function deployed successfully",
+            data: response,
+          });
+        } else throw new Error("Failed to get response");
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
   }
 });
+
+// // @desc    Test function
+// //+ @route   POST /api/functions/test/:id
+// // @access  Private
+// const testFunction = asyncHandler(async (req, res) => {
+//   const { input } = req.body;
+
+//   const fn = await Function.findById(req.params.id);
+
+//   try {
+//     fs.writeFileSync(handlerPath, fn.code);
+//     const config = `
+// org: arefir
+
+// service: FunctionTesting
+
+// provider:
+//   name: aws
+//   runtime: ${fn.runtime}
+
+// plugins:
+//   - serverless-offline
+
+// functions:
+//   hello:
+//     handler: handler.handler
+//     events:
+//       - httpApi:
+//           path: /
+//           method: ${fn.method}`;
+
+//     fs.writeFileSync(slsConfigPath, config);
+//     let slsProcess;
+
+//     //wait for sls offline to complete
+//     // await new Promise((resolve, reject) => {
+//     //   slsProcess = exec(
+//     //     "sls offline --httpPort=3030 --lambdaPort=3032",
+//     //     { cwd: "backend/function-testing/FunctionTesting" },
+//     //     (error, stdout, stderr) => {
+//     //       if (error) {
+//     //         console.error(
+//     //           `Error starting serverless offline: ${error.message}`
+//     //         );
+//     //         reject(error);
+//     //         return res
+//     //           .status(500)
+//     //           .json({ error: "Failed to start serverless offline" });
+//     //       }
+//     //       console.log("Serverless offline started");
+//     //       resolve("Sls started");
+//     //     }
+//     //   );
+//     // });
+
+//     slsProcess = await exec(
+//       "sls offline --httpPort=3030 --lambdaPort=3032",
+//       { cwd: "backend/function-testing/FunctionTesting" },
+//       (error, stdout, stderr) => {
+//         if (error) {
+//           console.error(`Error starting serverless offline: ${error.message}`);
+//           return res
+//             .status(500)
+//             .json({ error: "Failed to start serverless offline" });
+//         }
+//         console.log("Serverless offline started");
+//       }
+//     );
+//     configureAWS(process.env.AWS_KEY, process.env.AWS_SECRET, "ap-northeast-2");
+//     const lambda = new AWS.Lambda({
+//       apiVersion: "2015-03-31",
+//       endpoint: "http://localhost:3030",
+//     });
+//     await new Promise((resolve) => setTimeout(resolve, 10000));
+//     const result = await handler(input, lambda);
+//     console.log(result);
+
+//     slsProcess.kill("SIGINT");
+
+//     res
+//       .status(200)
+//       .json({ message: "Function tested successfully", output: result });
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   } finally {
+//     // Clean up files to avoid conflicts
+//     if (fs.existsSync(handlerPath)) {
+//       fs.unlinkSync(handlerPath);
+//     }
+//   }
+// });
 
 const configureAWS = (accessKey, secretKey, region) => {
   AWS.config.update({
@@ -259,6 +351,27 @@ const configureAWS = (accessKey, secretKey, region) => {
     secretAccessKey: secretKey,
     region: region, // Example region
   });
+};
+
+const handler = async (body, lambda) => {
+  const clientContextData = JSON.stringify({
+    foo: "foo",
+  });
+  try {
+    const payload = JSON.stringify(body);
+    const params = {
+      ClientContext: Buffer.from(clientContextData).toString("base64"),
+      // FunctionName is composed of: service name - stage - function name, e.g.
+      FunctionName: "FunctionTesting-dev-handler",
+      InvocationType: "RequestResponse",
+      Payload: payload,
+    };
+    const response = await lambda.invoke(params).promise();
+    console.log("Response:", response);
+    return JSON.stringify(response);
+  } catch (err) {
+    return err;
+  }
 };
 
 export {
