@@ -1,5 +1,5 @@
 import asyncHandler from "../middleware/asyncHandler.js";
-import generateToken from "../utils/generateToken.js";
+import { generateToken, logoutToken } from "../utils/generateToken.js";
 import User from "../models/userModel.js";
 
 // @desc    Auth user & get token
@@ -22,6 +22,22 @@ const authUser = asyncHandler(async (req, res) => {
   } else {
     res.status(401);
     throw new Error("Invalid email or password");
+  }
+});
+
+// @desc    Logout & replace token
+//* @route   GET /api/users/logout
+// @access  Private
+const logoutUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    logoutToken(res, user._id);
+
+    res.send("successfully loggedout");
+  } else {
+    res.status(401);
+    throw new Error("Not logged in");
   }
 });
 
@@ -176,6 +192,7 @@ const deleteIAM = asyncHandler(async (req, res) => {
 
 export {
   authUser,
+  logoutUser,
   registerUser,
   getProfile,
   updateProfile,
