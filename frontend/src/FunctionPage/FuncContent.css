@@ -3,7 +3,9 @@
     flex-direction: column;
     line-height: normal;
     width: 84%;
-    margin-left: 19%;
+    padding-left: 15px;
+    justify-content: center;
+    margin-left: 12%;
     padding-bottom: 30px;
     padding-right: 10px;
   }

@@ -10,7 +10,9 @@ function SearchResult() {
       <Header />
       <div className="content">
         <Sidebar />
+        <main className="itemContent">
         <ItemContent />
+        </main>
       </div>
     </div>
   );

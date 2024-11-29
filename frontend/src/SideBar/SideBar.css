@@ -7,7 +7,7 @@
       padding: 194px 0 592px;
       position: fixed;
       height: 100vh;
-      overflow-y: auto;
+      /* overflow-y: auto; */
       /* padding-top: 80px; */
       /* z-index: 100; */
     }

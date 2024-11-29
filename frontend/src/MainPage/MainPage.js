@@ -8,10 +8,12 @@ function MainPage() {
   return (
     <div className="main-page">
       <Header />
-      <main className="content-wrapper">
+      <div className="content-wrapper">
         <Sidebar />
+        <main className="content-area">
         <ContentArea />
-      </main>
+        </main>
+      </div>
     </div>
   );
 }

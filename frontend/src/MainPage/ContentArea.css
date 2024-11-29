@@ -2,11 +2,11 @@
     .content-area {
       display: flex;
       flex-direction: column;
-      padding-left: 60px;
+      padding-left: 15px;
       padding-right: 10px;
-      width: 83%;
+      width: 85%;
       padding-top: 17px;
-      margin-left: 16%;
+      margin-left: 12%;
       padding-bottom: 60px;
     }
     .section-title {

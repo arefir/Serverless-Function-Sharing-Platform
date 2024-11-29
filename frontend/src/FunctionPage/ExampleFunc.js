@@ -14,7 +14,9 @@ function ExampleFunc() {
         <div className="main-content">
           <div className="content-wrapper">
             <SideBar />
+            <main className="func-column">
             <FuncContent />
+            </main>
           </div>
         </div>
       </div>
