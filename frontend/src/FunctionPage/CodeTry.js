@@ -1,8 +1,7 @@
-// TestOverlay.js
 import React, {useState, useEffect} from 'react';
-import './TestOverlay.css';
+import './CodeTry.css';
 
-function TestOverlay({ toggleModal,code, setCode }) {
+function CodeTry({ toggleModal,code, setCode }) {
     const [codeText, setCodeText] = useState(code);
 
 const [eventText, setEventText] = useState(`{
@@ -30,7 +29,7 @@ const [eventText, setEventText] = useState(`{
 //   }, [codeText]); // Run effect when codeText changes
 
   return (
-    <div className="overlay">
+    <div className="codetry">
       <div className="darken" onClick={toggleModal}></div>
       <div className="modal-content">
         <div className="code-container">
@@ -69,4 +68,4 @@ const [eventText, setEventText] = useState(`{
   );
 }
 
-export default TestOverlay;
+export default CodeTry;

@@ -1,6 +1,6 @@
 import React from 'react';
 import './CodeBlock.css';
-import TestOverlay from './TestOverlay';
+import CodeTry from './CodeTry';
 
 function CodeBlock({code, setCode, isModalOpen, toggleModal}) {
   // const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,7 +30,7 @@ function CodeBlock({code, setCode, isModalOpen, toggleModal}) {
       </code>
     </pre>
 
-    {isModalOpen && (<TestOverlay toggleModal={toggleModal} code={code} setCode={setCode}/>)}
+    {isModalOpen && (<CodeTry toggleModal={toggleModal} code={code} setCode={setCode}/>)}
     </div>
   );
 }

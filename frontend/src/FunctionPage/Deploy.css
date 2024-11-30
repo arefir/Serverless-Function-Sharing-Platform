@@ -1,5 +1,5 @@
-/* TestOverlay.css */
-.overlay {
+
+.deploy-function {
     position: fixed;
     top: 0;
     left: 0;
@@ -21,7 +21,7 @@
     height: 100%;
   }
   
-  .modal-content {
+  .deploy-content {
     background: white;
     padding: 20px;
     border-radius: 15px;
@@ -30,16 +30,18 @@
     z-index: 1001;
     max-width: 950px;
     width: 100%;
+    max-height: 73vh;
     margin-left: 190px;
     display: flex;
     flex-direction: column;
-    max-height: 73vh;
     /* margin: 20px; */
     /* max-height: 70vh;*/
     overflow-y: auto;
+    /* gap: 20px; */
+    /* box-sizing: border-box; */
   }
   
-  .code-container {
+  .function-container {
     background-color: #f0f0f0;
     padding: 15px 30px;
     border-radius: 10px;
@@ -49,14 +51,15 @@
     font-family: monospace;
     border: 1px solid #e6e6e6;
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+    /* overflow: auto; */
     max-height: none
-    /* overflow: hidden; */
+    /* overflow-wrap: break-word; */
   }
   
   /* .event-object {
     margin-bottom: 20px;
   } */
-  .event-object h2, .result-object h2 {
+  .function-name h2 {
     margin-bottom: 0;
     padding-left: 10px; /* Adjust padding to align with the code container */
     color: #404040;
@@ -64,15 +67,20 @@
     text-align: left;
     align-self: start;
 }
+.function-name{
+    margin: 0;
+
+}
+
 
 .button-container {
     display: flex;
     justify-content: flex-end;
-    margin-right: 5px; 
+    margin-right: 5px; /* Add spacing between button and content */
     margin-top: 20px;
 }
   
-  .run-button {
+  .ok-button {
     background-color: #008709;
     color: white;
     padding: 0px 14px;
@@ -86,13 +94,13 @@
     font: 700 13px Nunito Sans, Arial, Helvetica, sans-serif;
   }
   
-  .run-button:hover {
+  .ok-button:hover {
     background-color: #006600;
   }
   
-  .code-editor {
+  .function-editor {
     width: 100%;
-    min-height: 150px;
+    min-height: 170px;
     background-color: #f0f0f0;
     padding: 15px;
     border-radius: 10px;
@@ -106,7 +114,57 @@
     resize: none;
   }
   
-  .code-editor:focus {
+  .function-editor:focus {
     outline: none;
     box-shadow: none;
+  }
+
+  .name-editor {
+    width: 100%;
+    height: 1.5em;
+    background-color: #f0f0f0;
+    padding: 0 10px;
+    border-radius: 10px;
+    font-family: monospace;
+    font-size: 13px;
+    border: none;
+    padding-bottom: 0;
+    /* border: 1px solid #e6e6e6; */
+    white-space: pre;
+    /* box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25); */
+    overflow: hidden;
+    resize: none;
+    text-overflow: ellipsis;
+    margin-bottom: 0;
+  }
+  
+  .name-editor:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  .dropdown-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 20px 10px 0;
+  }
+  
+  .dropdown {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  
+  .dropdown label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  .dropdown select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #e6e6e6;
+    font-size: 14px;
+    background-color: #f9f9f9;
   }
