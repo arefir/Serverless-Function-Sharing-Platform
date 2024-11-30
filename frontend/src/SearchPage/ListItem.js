@@ -1,9 +1,17 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 import "./ListItem.css";
 
 function ListItem({ titleSearch, icon, views, downloads }) {
+
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/example');
+  };
+
   return (
-    <li className="listItem">
+    <li className="listItem" onClick={handleClick}>
       <span className="title-list-search">{titleSearch}</span>
       <div className="stats">
         <img src={icon} alt="" className="itemIcon" />

@@ -33,9 +33,10 @@
     margin-left: 190px;
     display: flex;
     flex-direction: column;
+    max-height: 73vh;
     /* margin: 20px; */
-    /* max-height: 70vh;
-    overflow-y: auto; */
+    /* max-height: 70vh;*/
+    overflow-y: auto;
   }
   
   .code-container {
@@ -48,13 +49,14 @@
     font-family: monospace;
     border: 1px solid #e6e6e6;
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+    max-height: none
     /* overflow: hidden; */
   }
   
-  .event-object {
+  /* .event-object {
     margin-bottom: 20px;
-  }
-  .event-object h2 {
+  } */
+  .event-object h2, .result-object h2 {
     margin-bottom: 0;
     padding-left: 10px; /* Adjust padding to align with the code container */
     color: #404040;
@@ -66,7 +68,8 @@
 .button-container {
     display: flex;
     justify-content: flex-end;
-    margin-right: 5px; /* Add spacing between button and content */
+    margin-right: 5px; 
+    margin-top: 20px;
 }
   
   .run-button {

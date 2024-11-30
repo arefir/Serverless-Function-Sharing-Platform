@@ -9,6 +9,8 @@ const [eventText, setEventText] = useState(`{
     key: value
   }`);
 
+  const [resultText, setResultText] = useState(` `);
+
 //   const codeEditorRef = useRef(null);
 
   useEffect(() => {
@@ -46,6 +48,16 @@ const [eventText, setEventText] = useState(`{
               className="code-editor"
               value={eventText}
               onChange={(e) => setEventText(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="result-object">
+          <h2>Result</h2>
+          <div className="code-container">
+          <textarea
+              className="code-editor"
+              value={resultText}
+              onChange={(e) => setResultText(e.target.value)}
             />
           </div>
         </div>

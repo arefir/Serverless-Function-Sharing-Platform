@@ -8,6 +8,11 @@
     border: 1px solid #c8c8c8;
     font: 400 13px/24px Roboto, sans-serif;
     color: #5e5e5e;
+    cursor: pointer;
+  }
+
+  .listItem:hover{
+    background-color: #f0f0f0;
   }
 
   /* .title{

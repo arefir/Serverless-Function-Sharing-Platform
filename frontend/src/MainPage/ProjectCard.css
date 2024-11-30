@@ -7,6 +7,9 @@
       padding: 20px 0 11px;
       cursor: pointer;
     }
+    .project-card:hover{
+      background-color: #e0e0e0;
+    }
     .card-content {
       display: flex;
       flex-direction: column;

@@ -27,7 +27,46 @@
       width: 35px;
       height: 30px;
     }
+    .language-button:hover, .icon-button:hover{
+      background-color: #e0e0e0;
+    }
+
     .dropdown-icon, .notification-icon, .profile-icon {
       width: 17px;
       height: 17px;
+    }
+
+    .profile-container {
+      position: relative;
+    }
+    
+    .dropdown-menu {
+      position: absolute;
+      top: 40px; /* Adjust for spacing below the profile icon */
+      right: 0;
+      background-color: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 8px 0;
+      z-index: 1000;
+      min-width: 150px; /* Ensures proper size for menu */
+    }
+    
+    .dropdown-menu ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .dropdown-menu li {
+      padding: 10px 15px;
+      font: 400 14px/1.5 Inter, sans-serif;
+      color: #242424;
+      cursor: pointer;
+    }
+    
+    .dropdown-menu li:hover {
+      background-color: #404040;
+      color: #ffffff;
     }
